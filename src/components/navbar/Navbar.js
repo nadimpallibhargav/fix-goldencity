@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import logo from "../../images/logo/logo.png";
+import logo from "../../images/logo/logo.svg";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./navbar.css";
@@ -10,8 +10,9 @@ function NavBar() {
   return (
     <Navbar expand="lg" className="py-3">
       <Container>
-        <Navbar.Brand href="#" className="me-lg-5">
-          <img className="logo" src={logo} alt="logo" />
+        <Navbar.Brand href="#" className="me-lg-5 text-center d-flex flex-column align-items-center justify-content-center">
+          <img className="logo" src={logo} alt="logo" width='41' height='40' />
+          <span>GoldenCity.io</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">

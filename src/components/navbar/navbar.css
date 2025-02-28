@@ -15,6 +15,11 @@
   color: #a8a8a8;
 }
 
+.navbar-brand span {
+  font-size: 14px;
+  color: #B5964D;
+}
+
 .navbar-toggler:focus {
   box-shadow: none;
 }
