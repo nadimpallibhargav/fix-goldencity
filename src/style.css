@@ -360,6 +360,14 @@ body {
   width: max-content;
 }
 
+.properties-card img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.properties-card:hover img {
+  transform: scale(1.1);
+}
+
 /* End developers */
 
 /* Start join */
