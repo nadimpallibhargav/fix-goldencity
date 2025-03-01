@@ -5,8 +5,24 @@ import logo from "../../images/logo/logo.svg";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./navbar.css";
+import { ethers } from "ethers";
 
 function NavBar() {
+  const connectWallet = async () => {
+    let signer = null;
+    let provider;
+
+    if (typeof window.ethereum === "undefined") {
+      console.log("No Metamask wallet installed!");
+    } else {
+      provider = new ethers.BrowserProvider(window.ethereum);
+      signer = await provider.getSigner();
+
+      const address = await signer.getAddress();
+      console.log(address);
+    }
+  };
+
   return (
     <Navbar expand="lg" className="py-3">
       <Container>
@@ -30,6 +46,7 @@ function NavBar() {
           <Button
             variant="primary"
             className="btn-primary d-none d-lg-inline-block"
+             onClick={connectWallet}
           >
             Connect Wallet
           </Button>
