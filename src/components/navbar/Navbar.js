@@ -1,33 +1,44 @@
+import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { ethers } from "ethers";
 import logo from "../../images/logo/logo.svg";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./navbar.css";
-import { ethers } from "ethers";
 
 function NavBar() {
-  const connectWallet = async () => {
-    let signer = null;
-    let provider;
+  const [walletAddress, setWalletAddress] = useState(null);
 
+  const connectWallet = async () => {
     if (typeof window.ethereum === "undefined") {
       console.log("No Metamask wallet installed!");
-    } else {
-      provider = new ethers.BrowserProvider(window.ethereum);
-      signer = await provider.getSigner();
-
-      const address = await signer.getAddress();
-      console.log(address);
+      return;
     }
+
+    try {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      setWalletAddress(address);
+    } catch (error) {
+      console.error("Wallet connection failed", error);
+    }
+  };
+
+  const disconnectWallet = () => {
+    setWalletAddress(null);
   };
 
   return (
     <Navbar expand="lg" className="py-3">
       <Container>
-        <Navbar.Brand href="#" className="me-lg-5 text-center d-flex flex-column align-items-center justify-content-center">
-          <img className="logo" src={logo} alt="logo" width='41' height='40' />
+        <Navbar.Brand
+          href="#"
+          className="me-lg-5 text-center d-flex flex-column align-items-center justify-content-center"
+        >
+          <img className="logo" src={logo} alt="logo" width="41" height="40" />
           <span>GoldenCity.io</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -43,13 +54,15 @@ function NavBar() {
         <div className="d-flex align-items-center order">
           <span className="line d-lg-inline-block d-none"></span>
           <i className="fa-regular fa-heart"></i>
-          <Button
-            variant="primary"
-            className="btn-primary d-none d-lg-inline-block"
-             onClick={connectWallet}
-          >
-            Connect Wallet
-          </Button>
+          {walletAddress ? (
+            <Button variant="danger" className="btn-primary" onClick={disconnectWallet}>
+              {walletAddress.substring(0, 6)}...{walletAddress.substring(walletAddress.length - 4)}
+            </Button>
+          ) : (
+            <Button variant="primary" className="btn-primary" onClick={connectWallet}>
+              Connect Wallet
+            </Button>
+          )}
         </div>
       </Container>
     </Navbar>
